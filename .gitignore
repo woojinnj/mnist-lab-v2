@@ -6,3 +6,18 @@ data/mnist.npz
 data/*.part
 .DS_Store
 .venv/
+
+# Local environments and credentials
+.env
+.env.*
+!.env.example
+.envrc
+venv/
+.conda/
+environment.local.yml
+*.pem
+*.key
+
+# Local data (keep the starter files)
+/data/*
+!/data/.gitkeep
