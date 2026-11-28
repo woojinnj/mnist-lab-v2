@@ -46,11 +46,23 @@ class SoftmaxWithLoss:
                gradient check(허용 상대 오차 1e-6)가 1e-5 수준의 오차로 실패할 수 있습니다.
 
         힌트: 정답 클래스 확률만 골라내려면 y_prob[np.arange(batch_size), y_true]를 씁니다.
-
         검증: 모든 logits가 0이면 확률이 모두 1/10이므로 손실은 ln(10) = 2.3026 이 됩니다.
         """
         # TODO: 위 1~4 순서대로 구현하세요.
-        raise NotImplementedError("SoftmaxWithLoss.forward를 구현하세요.")
+        #1)
+        shifted = logits -np.max(logits,axis=1,keepdims=True) # axis = 1 : 가로방향으로 계산
+
+        #2)
+        exp_z=np.exp(shifted)
+        self.y_prob=exp_z/np.sum(exp_z,axis=1,keepdims=True)
+
+        #3)
+        self.y_true=y_true
+
+        #4)
+        batch_size=logits.shape[0]
+        correct_probs=self.y_prob[np.arange(batch_size),y_true]
+        return -np.mean(np.log(np.clip(correct_probs,1e-7,1.0)))
 
     def backward(self):
         """
