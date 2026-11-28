@@ -81,4 +81,8 @@ class SoftmaxWithLoss:
         검증: dx의 전체 합은 0에 가까워야 합니다. 왜 그런지 설명할 수 있어야 합니다.
         """
         # TODO: 위 1~3 순서대로 구현하세요.
-        raise NotImplementedError("SoftmaxWithLoss.backward를 구현하세요.")
+        #1)
+        batch_size=self.y_prob.shape[0]
+        dx = self.y_prob.copy()
+        dx[np.arange(batch_size), self.y_true] -= 1
+        return dx / batch_size
